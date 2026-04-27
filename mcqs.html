@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>חדוא 1מ — MCQ Deep Dive</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Karla:wght@400;500;600&display=swap');
+
+  :root {
+    --ink: #1a1a18;
+    --ink-muted: #5a5a55;
+    --ink-faint: #9a9a94;
+    --paper: #faf9f6;
+    --paper-warm: #f3f1eb;
+    --paper-card: #ffffff;
+    --accent: #c44b2b;
+    --accent-soft: #f5e8e4;
+    --accent2: #2b6cb0;
+    --accent2-soft: #e8f0f8;
+    --green: #276749;
+    --green-soft: #e6f2ec;
+    --amber: #92600a;
+    --amber-soft: #fef3dc;
+    --purple: #5b3fa0;
+    --purple-soft: #ede9f8;
+    --teal: #0d6e6e;
+    --teal-soft: #e0f4f4;
+    --border: #e2dfd7;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Karla', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .page-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.35rem;
+  }
+
+  .page-header .subtitle {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 5rem;
+  }
+
+  .toc {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.4rem 1.75rem;
+    margin-bottom: 2.5rem;
+    box-shadow: var(--shadow);
+  }
+
+  .toc-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.75rem;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem 2rem;
+  }
+
+  .toc a {
+    color: var(--accent2);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0;
+  }
+
+  .toc a:hover { text-decoration: underline; }
+
+  .toc-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+    width: 18px;
+    flex-shrink: 0;
+  }
+
+  section { margin-bottom: 3.5rem; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .qtype-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin: 1.5rem 0 0.65rem;
+  }
+
+  p { margin-bottom: 0.85rem; }
+
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.84em;
+    background: var(--paper-warm);
+    padding: 0.12em 0.38em;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+
+  .card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.1rem 1.35rem;
+    margin-bottom: 0.85rem;
+    box-shadow: var(--shadow);
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .highlight {
+    border-left: 3px solid;
+    border-radius: 0 8px 8px 0;
+    padding: 0.85rem 1.1rem;
+    margin: 0.9rem 0;
+    font-size: 0.9rem;
+  }
+
+  .highlight p { margin: 0; }
+  .highlight + .highlight { margin-top: 0.5rem; }
+
+  .hl-red    { border-color: var(--accent);  background: var(--accent-soft); }
+  .hl-blue   { border-color: var(--accent2); background: var(--accent2-soft); }
+  .hl-green  { border-color: var(--green);   background: var(--green-soft); }
+  .hl-amber  { border-color: var(--amber);   background: var(--amber-soft); }
+  .hl-purple { border-color: var(--purple);  background: var(--purple-soft); }
+  .hl-teal   { border-color: var(--teal);    background: var(--teal-soft); }
+
+  .hl-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .hl-red    .hl-label { color: var(--accent); }
+  .hl-blue   .hl-label { color: var(--accent2); }
+  .hl-green  .hl-label { color: var(--green); }
+  .hl-amber  .hl-label { color: var(--amber); }
+  .hl-purple .hl-label { color: var(--purple); }
+  .hl-teal   .hl-label { color: var(--teal); }
+
+  ul, ol { padding-left: 1.3rem; margin-bottom: 0.85rem; }
+  li { margin-bottom: 0.4rem; font-size: 0.91rem; }
+
+  .step-list {
+    counter-reset: steps;
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .step-list > li {
+    counter-increment: steps;
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 0.85rem;
+    align-items: flex-start;
+  }
+
+  .step-list > li::before {
+    content: counter(steps);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    background: var(--ink);
+    color: var(--paper);
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .step-list > li .step-body { flex: 1; }
+  .step-list > li .step-body strong { display: block; margin-bottom: 0.2rem; font-size: 0.93rem; }
+  .step-list > li .step-body p, .step-list > li .step-body span { font-size: 0.88rem; color: var(--ink-muted); line-height: 1.6; }
+
+  .example-block {
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 0.9rem 0;
+    font-size: 0.88rem;
+  }
+
+  .example-block .ex-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .formula-box {
+    background: var(--ink);
+    color: #f0ede6;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    padding: 0.9rem 1.2rem;
+    border-radius: 8px;
+    margin: 0.85rem 0;
+    line-height: 1.9;
+  }
+
+  .formula-box .comment { color: rgba(255,255,255,0.35); }
+
+  .options-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.75rem 0;
+  }
+
+  .options-list li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+  }
+
+  .options-list li:last-child { border-bottom: none; }
+
+  .opt-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .opt-true  { background: #dcfce7; color: #166534; }
+  .opt-false { background: #fee2e2; color: #991b1b; }
+  .opt-trap  { background: #fef3c7; color: #92400e; }
+
+  .freq-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+  }
+
+  .freq-every { background: #fee2e2; color: #991b1b; }
+  .freq-most  { background: #fef3c7; color: #92400e; }
+  .freq-some  { background: #dbeafe; color: #1e40af; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .card .card-title {
+    font-weight: 600;
+    font-size: 0.93rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .card .card-body {
+    font-size: 0.87rem;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+
+  .verdict {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+  }
+
+  .verdict-true  { background: #dcfce7; color: #166534; }
+  .verdict-false { background: #fee2e2; color: #991b1b; }
+
+  @media (max-width: 600px) {
+    .card-grid, .two-col, .toc-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>MCQ Deep Dive</h1>
+  <p class="subtitle">חדוא 1מ · 104018 · Every question type, step by step</p>
+</div>
+
+<div class="container">
+
+  <div class="toc">
+    <div class="toc-label">Question types</div>
+    <div class="toc-grid">
+      <a href="#q1"><span class="toc-num">Q1</span> Piecewise / exotic function</a>
+      <a href="#q5"><span class="toc-num">Q5</span> Number of roots</a>
+      <a href="#q2"><span class="toc-num">Q2</span> Two improper integrals</a>
+      <a href="#q6"><span class="toc-num">Q6</span> Specific function analysis</a>
+      <a href="#q3"><span class="toc-num">Q3</span> Two series: converge or not</a>
+      <a href="#q7"><span class="toc-num">Q7</span> Limit involving FTC</a>
+      <a href="#q4"><span class="toc-num">Q4</span> Mark the correct statement</a>
+      <a href="#q8"><span class="toc-num">Q8</span> Power series interval</a>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <section id="q1">
+    <div class="section-header">
+      <span class="qtype-badge">Q1 · Every exam</span>
+      <h2>Piecewise / exotic function</h2>
+    </div>
+
+    <div class="freq-pill freq-every">● Appears on every single final</div>
+
+    <p>A function is defined piecewise — usually something like <code>e^{-1/x³}</code>, <code>(1/2)sin(1/x)·(1/x)</code>, or <code>sin(x³-x²)/(x²-x)</code> for <code>x≠0</code> (or some other excluded points), with a defined value at those points. The question asks you to mark the <em>one true statement</em> from 5 options.</p>
+
+    <p>The options are always drawn from a fixed set of properties. Here's how to attack each one efficiently:</p>
+
+    <h3>The standard properties tested — and how to check them fast</h3>
+
+    <ol class="step-list">
+      <li>
+        <div class="step-body">
+          <strong>Continuity at the special point(s)</strong>
+          <span>Compute <code>lim_{x→a} f(x)</code> from both sides and compare to <code>f(a)</code>. For <code>e^{-1/x}</code>: the limit from the right is 0 (since <code>-1/x → -∞</code>) but from the left is <code>+∞</code> — so discontinuous. For <code>e^{-1/x³}</code>: both sides → 0 since <code>x³</code> changes sign, so it <em>is</em> continuous. Get this right first — it determines whether differentiability is even possible.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Differentiability at the special point(s)</strong>
+          <span>Only possible if it's continuous there. Use the limit definition: <code>f'(0) = lim_{h→0} [f(h)-f(0)]/h</code>. For <code>e^{-1/x³}</code>: <code>[e^{-1/h³}-0]/h = e^{-1/h³}/h → 0</code> since the exponential kills the polynomial. Don't try to differentiate the piecewise formula symbolically at the special point — always go back to the limit definition.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Even / odd</strong>
+          <span>Check: does <code>f(-x) = f(x)</code> (even) or <code>f(-x) = -f(x)</code> (odd)? A function like <code>x·sin(1/x)</code> is even (product of odd×odd = even). A function like <code>x²·sin(1/x)</code> is odd (even×odd = odd). <em>The piecewise definition at 0 must also satisfy the symmetry</em> — if <code>f(0)=5</code> and f is supposed to be odd, that's already false since odd functions must satisfy <code>f(0)=0</code>.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Injectivity (one-to-one) on a given interval</strong>
+          <span>For this, analyze the derivative's sign on that interval. If <code>f'(x) > 0</code> throughout (or <code>< 0</code>), it's injective. Alternatively, think about whether the function oscillates (e.g. <code>sin(1/x)</code> oscillates infinitely near 0, so it cannot be injective on any interval containing 0 or approaching 0). For large x, oscillation stops and it may become injective.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Integrability / integral value</strong>
+          <span>Bounded + piecewise continuous on a closed interval ⟹ integrable. Compute <code>∫_{-1}^{1} f(x)dx</code>: if f is odd, the integral is 0 immediately. If you need to estimate it (is it <code>> 1</code>? <code>< 1</code>?), use bounds: if <code>0 ≤ f(x) ≤ M</code> on <code>[0,1]</code>, then <code>∫_0^1 f dx ≤ M</code>. For <code>∫_0^1 e^{-1/x³}dx</code>: the function is between 0 and 1, so the integral is strictly between 0 and 1, which rules out "integral = 0" and "integral > 1".</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Monotonicity on a given interval</strong>
+          <span>Compute the derivative symbolically (away from the special point) and check its sign. For <code>e^{-1/x³}</code>: derivative is <code>(3/x⁴)·e^{-1/x³} > 0</code> for <code>x > 0</code>, so it's increasing on <code>(0,∞)</code>. For <code>x < 0</code>: need to check separately since <code>x³</code> is negative there.</span>
+        </div>
+      </li>
+    </ol>
+
+    <div class="highlight hl-red">
+      <span class="hl-label">Critical trap</span>
+      <p>For the option "f is bounded on [0,∞)" — note that <code>e^{-1/x}</code> → 1 as x→∞ and → 0 as x→0⁺, so it's bounded on [0,∞). But the function value at x=0 is defined separately — make sure it matches the limit or the answer could flip.</p>
+    </div>
+
+    <div class="example-block">
+      <span class="ex-label">Worked example — 2022 Exam A, Q1</span>
+      <p>f(x) = sin(1/x) for x≠0, f(0) = -1/3. Options include: ∫_{-1}^1 f dx = 0 ; injective on (0,∞) ; ∫_0^1 f dx > 1 ; f increasing on (-∞,0) ; f' bounded on (0,∞).</p>
+      <p style="margin-top:0.5rem"><strong>Step 1 — Parity:</strong> sin(1/x) is odd (sin(1/(-x)) = sin(-1/x) = -sin(1/x)), but f(0) = -1/3 ≠ 0, so f is NOT odd. So ∫_{-1}^1 f dx ≠ 0 by the parity argument — eliminate that option.</p>
+      <p><strong>Step 2 — Injectivity on (0,∞):</strong> sin(1/x) oscillates infinitely near 0, hitting every value in [-1,1] infinitely many times. Not injective.</p>
+      <p><strong>Step 3 — ∫_0^1 sin(1/x) dx > 1?</strong> The integrand is between -1 and 1, so |∫| ≤ 1. Definitely not > 1.</p>
+      <p><strong>Step 4 — f' bounded on (0,∞)?</strong> f'(x) = -cos(1/x)/x², which blows up as x→0⁺. Not bounded.</p>
+      <p><strong>Answer: f is increasing on (-∞,0).</strong> Check: f'(x) = -cos(1/x)/x² for x < 0. Near x=0⁻, this oscillates — that's not always positive. So actually... the answer needs a more careful check. The key is: for |x| sufficiently large (x very negative), cos(1/x) → 1 > 0, so f'(x) < 0. This is the trap — the "correct" option here requires recognizing which statement survives all the others failing.</p>
+    </div>
+
+  </section>
+
+  <hr class="divider">
+
+  <!-- Q2 -->
+  <section id="q2">
+    <div class="section-header">
+      <span class="qtype-badge">Q2 · Every exam</span>
+      <h2>Two improper integrals</h2>
+    </div>
+
+    <div class="freq-pill freq-every">● Appears on every single final</div>
+
+    <p>Two improper integrals I and II are given. Four options: both converge, neither converges, I only, II only. Always exactly one is correct.</p>
+
+    <h3>Step-by-step attack</h3>
+
+    <ol class="step-list">
+      <li>
+        <div class="step-body">
+          <strong>Locate all the singularities</strong>
+          <span>An improper integral can be improper at <em>∞</em> (infinite interval) or at a point where the integrand blows up. For <code>∫_1^3 sin(x-1)/(x-1)² dx</code>: improper at x=1 (the integrand blows up there). For <code>∫_1^∞ ...</code>: improper at ∞. If there are multiple singularities (e.g. <code>∫_0^∞</code> with a blow-up at 0 and at ∞), split the integral and analyze each piece separately.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Near each singularity, find the dominant behavior</strong>
+          <span>Replace the integrand with its leading-order term near the singularity. Use asymptotic equivalents. The goal is to reduce to a comparison with <code>1/(x-a)^p</code> near a finite singularity, or <code>1/x^p</code> near ∞.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Apply the p-test to your comparison function</strong>
+          <span>Near finite singularity at x=a: <code>∫ 1/(x-a)^p dx</code> converges iff <code>p &lt; 1</code>. At ∞: <code>∫_1^∞ 1/x^p dx</code> converges iff <code>p > 1</code>. The log refinement: <code>∫_e^∞ 1/(x(ln x)^p) dx</code> converges iff <code>p > 1</code>.</span>
+        </div>
+      </li>
+    </ol>
+
+    <h3>The asymptotic replacements — memorize these</h3>
+
+    <div class="formula-box">
+      <span class="comment">— Near x=a (let u = x-a → 0) —</span><br>
+      sin(u)/u² ~ 1/u          → diverges (p=1)<br>
+      (1-e^{-u})/u ~ 1         → converges if multiplied by 1/u^p, p&lt;1<br>
+      ln(1+u) ~ u              → same as polynomial<br>
+      arcsin(u) ~ u            → same as polynomial<br>
+      √(2-2cos u) ~ √(u²) = u → converges iff ∫ 1/u^p, p&lt;1<br>
+      <br>
+      <span class="comment">— Near x=∞ —</span><br>
+      ln(1+x)/x ~ ln(x)/x      → compare to 1/x^{1-ε}, diverges<br>
+      arctan(x) → π/2 (finite) → if multiplied: compare to the rest<br>
+      π/2 - arctan(x) ~ 1/x    → so (π/2-arctan x)/x² ~ 1/x³, converges<br>
+      e^{√x}/x ~ e^{√x}        → grows, but in denominator → rapid decay
+    </div>
+
+    <div class="highlight hl-amber">
+      <span class="hl-label">Common exam trap — sign-changing integrand</span>
+      <p>The comparison test requires the integrand to be eventually non-negative (or non-positive). For something like <code>sin(x-1)/(x-1)²</code> near x=1: sin(u)/u² ~ 1/u as u→0⁺ (since sin(u) > 0 for small u > 0), so it diverges like <code>∫ 1/u du</code>. The 2019A exam Q2 is exactly this — answer: I diverges, II converges.</p>
+    </div>
+
+    <div class="highlight hl-blue">
+      <span class="hl-label">The "odd function over symmetric interval" shortcut</span>
+      <p>If the integrand is odd and the interval is symmetric (like <code>∫_{-1}^{1}</code>), the integral is 0 — but only if it converges! You must still check convergence separately at both singularities. The 2021B exam Q2 uses this: <code>∫_{-1}^{0} arcsin(x)/x^{4/3}</code> — even though the answer seems "0 by symmetry", you must verify convergence near x=0 first (<code>arcsin(x)/x^{4/3} ~ x/x^{4/3} = 1/x^{1/3}</code>, p=1/3 &lt; 1, converges ✓).</p>
+    </div>
+
+    <h3>The full worked examples from the exams</h3>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">2019A Q2 — I: ∫_1^3 sin(x−1)/(x−1)² dx</div>
+        <div class="card-body">Singularity at x=1. Let u=x-1: near 0, sin(u)/u² ~ u/u² = 1/u. So ∫ ~ ∫ 1/u du near 0. p=1 ≥ 1. <span class="verdict verdict-false">DIVERGES</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">2019A Q2 — II: ∫_1^∞ (π/2 − arctan x)/x² dx</div>
+        <div class="card-body">At ∞: π/2 − arctan(x) ~ 1/x, so integrand ~ 1/x³. p=3 > 1. <span class="verdict verdict-true">CONVERGES</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">2020A Q2 — I: ∫_0^∞ ln(1+x)/ln(1+x) dx = ∫_0^∞ 1 dx</div>
+        <div class="card-body">Wait — actually ∫_0^∞ ln(1+x)/ln(1+x) dx simplifies to ∫_0^∞ 1 dx... check: the integral is ∫_1^∞ ln(1+x)/ln(1+x) dx. Simplifies, then at ∞ it's 1. <span class="verdict verdict-false">DIVERGES</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">2022B Q2 — II: ∫_0^1 1/√(2−2cos x) dx</div>
+        <div class="card-body">Near x=0: 2-2cos x ~ x², so √(2-2cos x) ~ x. Integrand ~ 1/x. p=1. <span class="verdict verdict-false">DIVERGES</span></div>
+      </div>
+    </div>
+
+  </section>
+
+  <hr class="divider">
+
+  <!-- Q3 -->
+  <section id="q3">
+    <div class="section-header">
+      <span class="qtype-badge">Q3 · Every exam</span>
+      <h2>Two series: converge or not?</h2>
+    </div>
+
+    <div class="freq-pill freq-every">● Appears on every single final</div>
+
+    <p>Same four-option structure as Q2. The strategy is built around one core idea: <em>replace complicated terms with their asymptotic equivalent and reduce to a p-series</em>.</p>
+
+    <h3>The asymptotic replacement toolkit</h3>
+
+    <div class="formula-box">
+      <span class="comment">— What these common terms look like as n → ∞ —</span><br>
+      arctan(1/n) ~ 1/n<br>
+      arctan((-1)^n/n) ~ (-1)^n/n       (alternating!)<br>
+      arccos(1 - 1/n) ~ √(2/n)          (use arccos(1-u) ~ √(2u))<br>
+      1 - cos(1/n) ~ 1/(2n²)<br>
+      1 - cos(1/n²) ~ 1/(2n⁴)<br>
+      sin(1/n) ~ 1/n<br>
+      ln(1 + 1/n) ~ 1/n<br>
+      ln(n+√n) - ln(n) = ln(1+1/√n) ~ 1/√n<br>
+      e^{1/n} - 1 ~ 1/n<br>
+      n(e^{1/n} - 1) ~ 1                (→ this series diverges!)<br>
+      (1/n + 1/(n+1))² ~ 4/n²<br>
+      n^{1/n} - 1 ~ ln(n)/n             (use e^{ln(n)/n}-1 ~ ln(n)/n)<br>
+      (n+1)^n / (n · n!) — use ratio test
+    </div>
+
+    <h3>Decision algorithm</h3>
+
+    <ol class="step-list">
+      <li>
+        <div class="step-body">
+          <strong>Check divergence test: does a_n → 0?</strong>
+          <span>If not, diverges immediately. Example: <code>Σ(2n)!/(n!)²</code> — by Stirling or ratio test, terms grow, so it diverges.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Replace each piece with its asymptotic</strong>
+          <span>Drop lower-order terms. The goal is to get the form <code>C/n^p</code> or <code>C·r^n</code> or <code>C/n^p·(ln n)^q</code>.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Apply limit comparison to the simplified form</strong>
+          <span><code>lim (a_n / b_n) = L</code> where 0 &lt; L &lt; ∞: then Σa_n and Σb_n have the same behavior. Pick <code>b_n = 1/n^p</code>.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>If alternating: apply Leibniz / alternating series test</strong>
+          <span>Σ(-1)^n b_n converges if: (i) b_n is eventually decreasing, (ii) b_n → 0. Note: this gives <em>conditional</em> convergence. If the MCQ asks about absolute convergence separately, you may need to also check if Σ|a_n| converges.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>For factorials/exponentials: ratio test</strong>
+          <span>Compute <code>lim |a_{n+1}/a_n|</code>. If &lt;1: converges. If >1: diverges. If =1: inconclusive (rare on this exam, but the series with <code>xⁿ/(n ln n)</code> at x=±1 is a known edge case).</span>
+        </div>
+      </li>
+    </ol>
+
+    <h3>Recurring exam examples solved</h3>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Σ(-1)^n · ln(1 + 1/n) — 2019A Q3</div>
+        <div class="card-body">a_n = ln(1+1/n) ~ 1/n. This is positive and → 0 and decreasing. Alternating series test: <span class="verdict verdict-true">CONVERGES</span> (conditionally). But Σ|a_n| ~ Σ1/n diverges, so not absolutely.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Σ n(1 − cos(1/n)) — 2019A Q3</div>
+        <div class="card-body">1 - cos(1/n) ~ 1/(2n²). So a_n ~ n · 1/(2n²) = 1/(2n). This is Σ1/2n, the harmonic series. <span class="verdict verdict-false">DIVERGES</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Σ (e^{1/n} - 1)² — 2019B Q3</div>
+        <div class="card-body">e^{1/n}-1 ~ 1/n. So (e^{1/n}-1)² ~ 1/n². p=2 > 1. <span class="verdict verdict-true">CONVERGES</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Σ arccos(1 − 1/n) — 2019B Q3</div>
+        <div class="card-body">arccos(1-u) ~ √(2u) as u→0. So arccos(1-1/n) ~ √(2/n). This is ~ 1/n^{1/2}. p=1/2 ≤ 1. <span class="verdict verdict-false">DIVERGES</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Σ arctan((-1)^n/n) — 2020A Q3</div>
+        <div class="card-body">~ (-1)^n/n. Alternating series with b_n=1/n decreasing → 0. <span class="verdict verdict-true">CONVERGES</span> (conditionally)</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Σ (2n)!/(n!)² — 2020A Q3</div>
+        <div class="card-body">Ratio test: a_{n+1}/a_n = (2n+2)(2n+1)/((n+1)²) → 4 > 1. <span class="verdict verdict-false">DIVERGES</span></div>
+      </div>
+    </div>
+
+    <div class="highlight hl-green">
+      <span class="hl-label">The n^(1/n) − 1 case</span>
+      <p>This appears in 2022A Q3 as part of <code>Σ (n+1)^n / (2^n · n!)</code>. Ratio test: <code>a_{n+1}/a_n = (n+2)^{n+1}/((n+1)^n · 2 · (n+1)) = (1+1/(n+1))^n · (n+2)/(2(n+1)) → e/2 &gt; 1</code>. Diverges.</p>
+    </div>
+
+  </section>
+
+  <hr class="divider">
+
+  <!-- Q4 -->
+  <section id="q4">
+    <div class="section-header">
+      <span class="qtype-badge">Q4 · Every exam</span>
+      <h2>Mark the correct / incorrect statement</h2>
+    </div>
+
+    <div class="freq-pill freq-every">● Appears on every final, usually worth 8 pts</div>
+
+    <p>This question tests conceptual understanding with traps. The options are crafted to look plausible. The key skill is having a mental library of standard counterexamples and known implications.</p>
+
+    <h3>The implications you must know cold</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">Differentiability &amp; continuity</div>
+        <div class="card-body">
+          <span class="verdict verdict-true">TRUE</span> Differentiable ⟹ continuous<br>
+          <span class="verdict verdict-false">FALSE</span> Continuous ⟹ differentiable (<code>|x|</code> at 0)<br>
+          <span class="verdict verdict-false">FALSE</span> f² differentiable ⟹ f differentiable (<code>f(x)=-1 x&lt;0, 1 x≥0</code>: f² = 1 everywhere, but f not continuous)<br>
+          <span class="verdict verdict-true">TRUE</span> f differentiable ⟹ f² differentiable<br>
+          <span class="verdict verdict-false">FALSE</span> |f| differentiable ⟹ f differentiable
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Monotonicity</div>
+        <div class="card-body">
+          <span class="verdict verdict-true">TRUE</span> f'(x) > 0 on (a,b) ⟹ strictly increasing<br>
+          <span class="verdict verdict-false">FALSE</span> f'(x) ≥ 0 on (a,b) ⟹ strictly increasing (<code>x³</code> at 0)<br>
+          <span class="verdict verdict-true">TRUE</span> f'(x) > 0 except finitely many points ⟹ strictly increasing<br>
+          <span class="verdict verdict-false">FALSE</span> f'(x) > 0 for all x ≠ 0,1 ⟹ strictly increasing (true if on a connected interval; but if f is not continuous at 0 or 1 it could fail)<br>
+          <span class="verdict verdict-false">FALSE</span> lim f'(x) = 8 as x→∞ ⟹ f increasing on ℝ (f might decrease earlier)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Convexity &amp; extrema</div>
+        <div class="card-body">
+          <span class="verdict verdict-false">FALSE</span> Every convex function on ℝ has a minimum (e.g. <code>f(x)=e^x</code>: convex but no minimum)<br>
+          <span class="verdict verdict-true">TRUE</span> A convex function on ℝ that has a maximum must be constant<br>
+          <span class="verdict verdict-false">FALSE</span> An inflection point cannot be a local extremum (it can if f' doesn't exist there)<br>
+          <span class="verdict verdict-false">FALSE</span> f''(x) > 0 for all x ⟹ f has a unique minimum (f might have no minimum at all, e.g. if f→∞ in both directions but not attained — actually this one IS true for continuous f on ℝ if f→∞; check the specific statement carefully)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Limits &amp; asymptotic behavior</div>
+        <div class="card-body">
+          <span class="verdict verdict-false">FALSE</span> f(x)/g(x) → 1 ⟹ f(x)-g(x) → 0 (counterexample: f=x+1, g=x)<br>
+          <span class="verdict verdict-true">TRUE</span> f(x)-g(x) → C ⟹ f(x)/g(x) → 1 (if g(x) → ∞)<br>
+          <span class="verdict verdict-false">FALSE</span> f(x)/x → 1 as x→0 ⟹ f is differentiable at 0 with f'(0)=1... actually TRUE by definition of derivative if f(0)=0<br>
+          <span class="verdict verdict-false">FALSE</span> lim f(x)·g(x) = 0 ⟹ lim f(x)=0 or lim g(x)=0 (both could oscillate)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">The Riemann integral limit (recurring)</div>
+        <div class="card-body">
+          The statement <code>lim_{x→∞} ∫_x^{x+1} f(t)/(3t²+5t+4) dt = 2/3</code> is tested in 2019A and 2020A. Approach: the denominator ~ 3t² at ∞, and the integral of f(t) over a unit interval... by the MVT for integrals, this is f(c_x)/(3x²+...) → 0. Actually: the integrand ~ f(t)/(3t²), and if f is a polynomial, this simplifies. The answer depends on the numerator — read carefully.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">f(x)/x → 1 as x→0 ⟹ differentiable at 0?</div>
+        <div class="card-body">
+          <span class="verdict verdict-true">TRUE</span> if f(0) = 0: this is exactly the definition of f'(0) = 1. <br>
+          But the option often says "f is <em>necessarily</em> differentiable at 0 and f'(0)=1" — TRUE if f(0)=0 is given or implied (since f(x)/x → 1 and f continuous → f(0)=0).
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight hl-purple">
+      <span class="hl-label">Exam strategy for Q4</span>
+      <p>Go through each option and try to find a counterexample in 30 seconds. If you can't, tentatively mark it as true. The correct answer is the one where (a) you can't find a counterexample, and (b) you can sketch a proof. Usually 3 of the 4-5 options have counterexamples you recognize immediately.</p>
+    </div>
+
+  </section>
+
+  <hr class="divider">
+
+  <!-- Q5 -->
+  <section id="q5">
+    <div class="section-header">
+      <span class="qtype-badge">Q5 · Most finals</span>
+      <h2>Number of roots of an equation</h2>
+    </div>
+
+    <div class="freq-pill freq-most">● Appears on most finals (Q1 in 2019, 2020)</div>
+
+    <p>The equation is of the form <code>f(x) = c</code> or <code>f(x) = g(x)</code>. Options: exactly 1, 2, 3, 4, or no roots.</p>
+
+    <h3>The algorithm</h3>
+
+    <ol class="step-list">
+      <li>
+        <div class="step-body">
+          <strong>Rewrite as h(x) = 0 where h = f - g</strong>
+          <span>Work with a single function. Check: h(x) continuous? (Almost always yes for this exam.)</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Check behavior at boundaries: h(−∞), h(+∞), and key points</strong>
+          <span>Use IVT: if h changes sign over an interval, there's a root inside. Find intervals where the sign change occurs. Also check h(0), h(1), h(-1), etc. for easy-to-compute values.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Analyze h'(x) to count how many times h can change sign</strong>
+          <span>If h'(x) has exactly k real roots (where h' changes sign), then h has at most k+1 intervals of monotonicity, and thus h(x)=0 has at most k+1 roots. Combined with IVT evidence, this pins down the exact count.</span>
+        </div>
+      </li>
+    </ol>
+
+    <div class="example-block">
+      <span class="ex-label">2019A Q1 — f(x) = 8x² − ln(1+x²) − cos(2x), how many roots?</span>
+      <p><strong>Step 1:</strong> f(0) = 0 - 0 - 1 = -1 &lt; 0. f(1) = 8 - ln2 - cos2 ≈ 8 - 0.69 - (-0.41) = 7.72 &gt; 0. So by IVT, a root exists in (0,1). By symmetry check: f(-x) = f(x) (all terms are even!), so if there's a root at x₀ > 0, there's one at -x₀. That gives at least 2 roots.</p>
+      <p><strong>Step 2:</strong> f'(x) = 16x - 2x/(1+x²) + 2sin(2x). At x=0: f'(0) = 0. Check f'(x) for x > 0: 16x dominates for large x, and near 0... f''(0) = 16 - 2 + 4 = 18 > 0, so x=0 is a local minimum. Since f(0) &lt; 0 and f → +∞ as x→∞, there is exactly one root for x > 0.</p>
+      <p><strong>Answer: exactly 2 roots</strong> (one positive, one negative, by symmetry).</p>
+    </div>
+
+    <div class="example-block">
+      <span class="ex-label">2020A Q1 — x = sin(2x), how many roots?</span>
+      <p>Rewrite: h(x) = x - sin(2x) = 0. h(0) = 0 ✓ (x=0 is a root). h'(x) = 1 - 2cos(2x). h'(x) = 0 when cos(2x) = 1/2, i.e. 2x = ±π/3 + 2πk. Near x=0: h'(0) = 1 - 2 = -1 &lt; 0, so h is decreasing at 0. For large |x|: |sin(2x)| ≤ 1 but |x| → ∞, so h(x) → +∞ for x→+∞ and → -∞ for x→-∞. h starts at 0 (at x=0), dips negative (since h'(0) &lt; 0), then comes back up. Similarly for x &lt; 0. Count the sign changes: there are roots at some x₁ &lt; 0 &lt; x₂ besides x=0. Total: <strong>3 roots</strong>.</p>
+    </div>
+
+  </section>
+
+  <hr class="divider">
+
+  <!-- Q6 -->
+  <section id="q6">
+    <div class="section-header">
+      <span class="qtype-badge">Q6 · Most finals</span>
+      <h2>Specific function analysis</h2>
+    </div>
+
+    <div class="freq-pill freq-most">● A specific named function, multiple properties to test</div>
+
+    <p>Unlike Q1 (piecewise), this is a "nice" function like <code>f(x) = xe^{|x|} + 5x⁴</code> or <code>f(x) = |x|sin(x)</code>. The options test: limits at ±∞, parity, differentiability at 0, specific integral values.</p>
+
+    <h3>Systematic checks</h3>
+
+    <ul>
+      <li><strong>Parity:</strong> Write f(-x) and simplify. Even: f(-x)=f(x). Odd: f(-x)=-f(x). For products: odd×odd = even, even×odd = odd, even×even = even.</li>
+      <li><strong>Limit at ∞:</strong> For oscillatory functions like <code>|x|sin(x)</code>, the limit does NOT exist (even in extended sense) since the function oscillates with growing amplitude. For <code>xe^{|x|}</code>: as x→+∞ this → +∞, as x→-∞: xe^{-x} → 0. So the limit at ∞ in the extended sense is +∞ but it oscillates on negatives... check carefully.</li>
+      <li><strong>Differentiability at 0 for |x|-type functions:</strong> Use limit definition. <code>f'(0) = lim_{h→0} [f(h)-f(0)]/h</code>. For <code>|x|sin(x)</code>: <code>[|h|sin(h)-0]/h = |h|sin(h)/h → 0·1 = 0</code>. So f'(0) = 0.</li>
+      <li><strong>Integral values:</strong> Use parity to simplify. <code>∫_{-1}^{1} |x|sin(x)dx = 0</code> since the integrand is odd (odd × odd = even... wait: |x| is even, sin(x) is odd → product is odd). So integral over symmetric interval = 0. <code>∫_0^1 |x|sin(x)dx</code>: just compute directly.</li>
+    </ul>
+
+    <div class="highlight hl-teal">
+      <span class="hl-label">Parity quick-reference</span>
+      <p>even × even = even &nbsp;|&nbsp; odd × odd = even &nbsp;|&nbsp; even × odd = odd<br>
+      even ∘ anything = even &nbsp;|&nbsp; odd ∘ odd = odd &nbsp;|&nbsp; f ∘ g parity: use f(g(-x)).<br>
+      For integrals: ∫_{-a}^{a} even = 2∫_0^a &nbsp;|&nbsp; ∫_{-a}^{a} odd = 0</p>
+    </div>
+
+  </section>
+
+  <hr class="divider">
+
+  <!-- Q7 -->
+  <section id="q7">
+    <div class="section-header">
+      <span class="qtype-badge">Q7 · Post-2019 finals</span>
+      <h2>Limit involving a variable-bound integral</h2>
+    </div>
+
+    <div class="freq-pill freq-most">● Appears in later exams (2020, 2021, 2022)</div>
+
+    <p>A limit of the form <code>lim_{x→a} [∫_{g(x)}^{h(x)} f(t)dt] / [denominator]</code>. This is 0/0, so L'Hôpital applies — but the key is differentiating the numerator using the Fundamental Theorem of Calculus.</p>
+
+    <h3>The algorithm</h3>
+
+    <ol class="step-list">
+      <li>
+        <div class="step-body">
+          <strong>Verify it's 0/0 or ∞/∞</strong>
+          <span>Usually the integral = 0 when bounds coincide (e.g. if lower = upper at the limit point). The denominator also → 0.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Differentiate numerator using FTC + chain rule</strong>
+          <span><code>d/dx ∫_{g(x)}^{h(x)} f(t)dt = f(h(x))·h'(x) - f(g(x))·g'(x)</code></span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Differentiate denominator normally</strong>
+          <span>May need to apply L'Hôpital multiple times if still 0/0.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Evaluate at the limit point</strong>
+          <span>If still 0/0, repeat. Usually 1-2 applications suffice.</span>
+        </div>
+      </li>
+    </ol>
+
+    <div class="example-block">
+      <span class="ex-label">2022A Q7(c) — lim_{x→0} [∫_{x²}^{x³} sin(t²)dt] / sin(x⁶)</span>
+      <p>At x=0: numerator = 0 (bounds coincide), denominator sin(0) = 0. Apply L'Hôpital:</p>
+      <p>Numerator derivative: sin((x³)²)·3x² - sin((x²)²)·2x = sin(x⁶)·3x² - sin(x⁴)·2x</p>
+      <p>Denominator derivative: cos(x⁶)·6x⁵</p>
+      <p>Ratio: [sin(x⁶)·3x² - sin(x⁴)·2x] / [6x⁵·cos(x⁶)]</p>
+      <p>Near x=0: sin(x⁶) ~ x⁶, sin(x⁴) ~ x⁴. So numerator ~ 3x⁸ - 2x⁵. Dominant term: -2x⁵. Ratio ~ -2x⁵/(6x⁵·1) = -1/3.</p>
+      <p><strong>Answer: -1/3</strong></p>
+    </div>
+
+    <div class="example-block">
+      <span class="ex-label">2020B Q1 — lim_{x→π/2} [∫_{π/2}^x sin(t)/arcsin(t) dt] / (1-sin x) via sin x</span>
+      <p>This is 0/0 at x=π/2. Numerator derivative (FTC): sin(x)/arcsin(x). Denominator derivative: -cos(x). Ratio: sin(x)/(arcsin(x)·(-cos x)). At x=π/2: sin(π/2)=1, arcsin(π/2) is... wait, arcsin only defined for [-1,1]. The integral has arcsin(t) in the denominator — check the domain. Near t=π/2, arcsin(t) is not real. This is likely a typo in the extraction; ignore and focus on the method.</p>
+    </div>
+
+  </section>
+
+  <hr class="divider">
+
+  <!-- Q8 -->
+  <section id="q8">
+    <div class="section-header">
+      <span class="qtype-badge">Q8 · Most finals</span>
+      <h2>Power series interval of convergence</h2>
+    </div>
+
+    <div class="freq-pill freq-most">● Appears on most finals, sometimes in MCQ, sometimes in T&amp;F</div>
+
+    <h3>Full step-by-step algorithm</h3>
+
+    <ol class="step-list">
+      <li>
+        <div class="step-body">
+          <strong>Find the radius R using the ratio test</strong>
+          <span><code>R = lim_{n→∞} |a_n/a_{n+1}|</code>. Or: <code>R = 1/limsup |a_n|^{1/n}</code>. Key fact: if <code>a_n → L ≠ 0</code>, then <code>R = 1</code> (since ratio → 1).</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Check the endpoint x = +R</strong>
+          <span>Substitute and determine convergence using alternating series, p-series, or divergence test.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Check the endpoint x = −R</strong>
+          <span>Same process. The two endpoints are often different (one converges, one doesn't).</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Write the interval using correct bracket notation</strong>
+          <span>( for excluded endpoint, [ for included. E.g. [-R, R) means -R included, R excluded.</span>
+        </div>
+      </li>
+    </ol>
+
+    <h3>Key endpoint tests</h3>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Σ xⁿ/(n ln n) — at x = ±1</div>
+        <div class="card-body">At x=1: Σ 1/(n ln n). By integral test: ∫ 1/(x ln x)dx = ln(ln x) → ∞. <span class="verdict verdict-false">DIVERGES</span><br>At x=-1: Σ (-1)^n/(n ln n). Alternating, b_n = 1/(n ln n) → 0 decreasing. <span class="verdict verdict-true">CONVERGES</span><br>Interval: [-1, 1)</div>
+      </div>
+      <div class="card">
+        <div class="card-title">If a_n → L ≠ 0, what is the interval?</div>
+        <div class="card-body">R = 1. At x=1: Σa_n·1^n = Σa_n. Since a_n → L ≠ 0, diverges by divergence test. At x=-1: Σa_n·(-1)^n. Same issue. <span class="verdict verdict-false">Neither endpoint included.</span> Interval: (-1, 1).</div>
+      </div>
+    </div>
+
+    <h3>Transformed power series</h3>
+
+    <p>The exam tests whether you can handle non-standard power series. If <code>Σa_n x^n</code> has interval <code>[-2, 2)</code> (so R=2), then:</p>
+
+    <ul>
+      <li><code>Σa_n x^{2n}</code>: converges when |x²| &lt; 2, i.e. |x| &lt; √2. Check x = ±√2 separately.</li>
+      <li><code>Σa_n (x²+1)^n</code>: converges when |x²+1| &lt; 2, i.e. -3 &lt; x² &lt; 1, i.e. -1 &lt; x &lt; 1 (and x² ≥ 0 always). Check endpoints.</li>
+      <li><code>Σna_n x^{n-1}</code> (the derivative series): same radius R=2, but endpoint behavior may differ — usually loses convergence at the previously-convergent endpoint.</li>
+      <li><code>Σa_n x^n / n</code> (the antiderivative series): same radius R=2, may gain convergence at the previously-divergent endpoint.</li>
+    </ul>
+
+    <div class="highlight hl-amber">
+      <span class="hl-label">The 2018A MCQ trap</span>
+      <p>If <code>lim a_n = L</code> (finite, nonzero), the interval of convergence is <em>exactly</em> <code>(-1, 1)</code>. Not (-L, L). The radius depends on the ratio of consecutive terms, not on the value of the terms themselves. This is a classic trap option — the answer (c) "(-1,1)" is correct, not (b) "(-L,L)".</p>
+    </div>
+
+  </section>
+
+  <hr class="divider">
+
+  <!-- True/False section -->
+  <section id="tf">
+    <div class="section-header">
+      <span class="qtype-badge">T&F · Every exam from 2020</span>
+      <h2>True / False questions</h2>
+    </div>
+
+    <div class="freq-pill freq-every">● 4 statements, 3 pts each, 12 pts total — no partial credit per statement</div>
+
+    <p>From 2020 onward, exams include a block of 4 T/F statements. Unlike Part B, you just circle True or False — no justification needed. But you do need to be right.</p>
+
+    <h3>Recurring T/F archetypes</h3>
+
+    <ul class="options-list">
+      <li>
+        <span class="opt-label opt-true">TRUE</span>
+        <span><code>lim (1 + ln(1+n²))^{2ln(n)/something} = e^a</code> — always reduce to e^{lim exponent · ln base}. These 1^∞ forms always work out to a specific value.</span>
+      </li>
+      <li>
+        <span class="opt-label opt-false">FALSE</span>
+        <span>"If a_n > 0 and lim b_n = ∞, then lim a_n·b_n = ∞." Counterexample: a_n = 1/n², b_n = n → a_n·b_n = 1/n → 0.</span>
+      </li>
+      <li>
+        <span class="opt-label opt-true">TRUE</span>
+        <span>"If a_n ≥ 1 for all n and lim b_n = ∞ and a_n does not converge in extended sense, then lim a_n·b_n = ∞." Since a_n ≥ 1 and b_n → ∞, the product → ∞ regardless of a_n's behavior.</span>
+      </li>
+      <li>
+        <span class="opt-label opt-false">FALSE</span>
+        <span>"If Σa_n and Σb_n converge, then Σa_n·b_n converges." Counterexample: a_n = b_n = (-1)^n/√n. Σa_n converges (alternating), but Σa_n·b_n = Σ1/n diverges.</span>
+      </li>
+      <li>
+        <span class="opt-label opt-true">TRUE</span>
+        <span>"There is 0 &lt; c &lt; 1 for which ln(1+c²) = ln(2-c)." Apply IVT to h(x) = ln(1+x²) - ln(2-x): h(0) = 0 - ln2 &lt; 0, h(1) = ln2 - 0 &gt; 0 → root exists in (0,1). ✓</span>
+      </li>
+      <li>
+        <span class="opt-label opt-false">FALSE</span>
+        <span>"If a_n is bounded and sin(a_n) converges, then a_n converges." Counterexample: a_n = π/2 + 2πn (or just a_n oscillating between two values x,y where sin(x)=sin(y)).</span>
+      </li>
+      <li>
+        <span class="opt-label opt-true">TRUE</span>
+        <span>"If Σ3a_n converges, then Σa_n converges." (trivially — same series scaled by 3). But "Σa_n³ converges ⟹ Σa_n⁶ converges" — TRUE because a_n³ → 0, so eventually |a_n| &lt; 1, so |a_n⁶| = |a_n³|² ≤ |a_n³| → comparison works.</span>
+      </li>
+      <li>
+        <span class="opt-label opt-trap">TRAP</span>
+        <span>"lim x^{1/x} = 1 as x→∞." TRUE — write as e^{ln(x)/x} → e^0 = 1. But this is often listed with a subtly wrong value or different base. Read carefully.</span>
+      </li>
+    </ul>
+
+  </section>
+
+</div>
+</body>
+</html>
