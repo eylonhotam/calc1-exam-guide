@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>חדוא 1מ — Exam Strategy Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Karla:wght@400;500;600&display=swap');
+
+  :root {
+    --ink: #1a1a18;
+    --ink-muted: #5a5a55;
+    --ink-faint: #9a9a94;
+    --paper: #faf9f6;
+    --paper-warm: #f3f1eb;
+    --paper-card: #ffffff;
+    --accent: #c44b2b;
+    --accent-soft: #f5e8e4;
+    --accent2: #2b6cb0;
+    --accent2-soft: #e8f0f8;
+    --green: #276749;
+    --green-soft: #e6f2ec;
+    --amber: #92600a;
+    --amber-soft: #fef3dc;
+    --purple: #5b3fa0;
+    --purple-soft: #ede9f8;
+    --border: #e2dfd7;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Karla', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .page-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 40px solid rgba(255,255,255,0.04);
+  }
+
+  .page-header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -30px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    border: 30px solid rgba(255,255,255,0.04);
+  }
+
+  .page-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.6rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+    position: relative;
+  }
+
+  .page-header .subtitle {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .toc {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 2.5rem;
+    box-shadow: var(--shadow);
+  }
+
+  .toc h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .toc ol {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3rem 2rem;
+    padding-left: 1.2rem;
+  }
+
+  .toc a {
+    color: var(--accent2);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .toc a:hover { text-decoration: underline; }
+
+  section {
+    margin-bottom: 3rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .section-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.55rem;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  h3 {
+    font-family: 'Karla', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin: 1.5rem 0 0.6rem;
+  }
+
+  p { margin-bottom: 0.85rem; color: var(--ink); }
+
+  .card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+
+  .freq-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.18rem 0.55rem;
+    border-radius: 4px;
+    margin-bottom: 0.4rem;
+  }
+
+  .freq-always { background: #fee2e2; color: #991b1b; }
+  .freq-often  { background: #fef3c7; color: #92400e; }
+  .freq-sometimes { background: #dbeafe; color: #1e40af; }
+
+  .card .title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+    color: var(--ink);
+  }
+
+  .card .desc {
+    font-size: 0.88rem;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  .strategy-block {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    padding: 0.9rem 1.1rem;
+    border-radius: 0 8px 8px 0;
+    margin: 0.85rem 0;
+  }
+
+  .strategy-block.blue {
+    border-color: var(--accent2);
+    background: var(--accent2-soft);
+  }
+
+  .strategy-block.green {
+    border-color: var(--green);
+    background: var(--green-soft);
+  }
+
+  .strategy-block.amber {
+    border-color: var(--amber);
+    background: var(--amber-soft);
+  }
+
+  .strategy-block.purple {
+    border-color: var(--purple);
+    background: var(--purple-soft);
+  }
+
+  .strategy-block strong {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+    color: var(--accent);
+  }
+
+  .strategy-block.blue strong { color: var(--accent2); }
+  .strategy-block.green strong { color: var(--green); }
+  .strategy-block.amber strong { color: var(--amber); }
+  .strategy-block.purple strong { color: var(--purple); }
+
+  .strategy-block p { margin: 0; font-size: 0.9rem; }
+
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85em;
+    background: var(--paper-warm);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    color: var(--ink);
+  }
+
+  .formula-box {
+    background: var(--ink);
+    color: #f0ede6;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    margin: 0.85rem 0;
+    line-height: 2;
+  }
+
+  .formula-box .comment {
+    color: rgba(255,255,255,0.35);
+    font-size: 0.78rem;
+  }
+
+  ul, ol {
+    padding-left: 1.3rem;
+    margin-bottom: 0.85rem;
+  }
+
+  li { margin-bottom: 0.35rem; font-size: 0.92rem; }
+
+  .warning {
+    background: #fff8f0;
+    border: 1px solid #f6c090;
+    border-radius: 8px;
+    padding: 0.85rem 1.1rem;
+    margin: 0.85rem 0;
+    font-size: 0.88rem;
+  }
+
+  .warning::before {
+    content: '⚠ ';
+    font-weight: 700;
+    color: #b45309;
+  }
+
+  .formula-add {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 8px;
+    padding: 0.85rem 1.1rem;
+    margin: 0.85rem 0;
+    font-size: 0.88rem;
+  }
+
+  .formula-add::before {
+    content: '+ ';
+    font-weight: 700;
+    color: #166534;
+  }
+
+  .exam-structure {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .exam-part {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--paper-card);
+    box-shadow: var(--shadow);
+  }
+
+  .exam-part .part-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.6rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .exam-part .part-body {
+    padding: 0.85rem 1rem;
+    font-size: 0.88rem;
+  }
+
+  .exam-part .part-body .pts {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .topic-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .topic-row:last-child { border-bottom: none; }
+
+  .topic-row .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  .topic-row .dot.blue { background: var(--accent2); }
+  .topic-row .dot.green { background: var(--green); }
+  .topic-row .dot.purple { background: var(--purple); }
+  .topic-row .dot.amber { background: var(--amber); }
+
+  .topic-row .topic-content .topic-name {
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .topic-row .topic-content .topic-tip {
+    font-size: 0.84rem;
+    color: var(--ink-muted);
+    margin-top: 0.2rem;
+  }
+
+  .step-list {
+    counter-reset: steps;
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .step-list li {
+    counter-increment: steps;
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.7rem;
+    align-items: flex-start;
+  }
+
+  .step-list li::before {
+    content: counter(steps);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    background: var(--ink);
+    color: var(--paper);
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  .formula-additions-list .item {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 1rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+    font-size: 0.88rem;
+  }
+
+  .formula-additions-list .item:last-child { border-bottom: none; }
+
+  .formula-additions-list .item .label {
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .tag-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0.5rem 0; }
+  .tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .tag-red { background: #fee2e2; color: #991b1b; }
+  .tag-blue { background: #dbeafe; color: #1e40af; }
+  .tag-green { background: #dcfce7; color: #166534; }
+  .tag-purple { background: #f3e8ff; color: #6b21a8; }
+  .tag-amber { background: #fef3c7; color: #92400e; }
+
+  @media (max-width: 600px) {
+    .card-grid, .card-grid.three { grid-template-columns: 1fr; }
+    .exam-structure { grid-template-columns: 1fr; }
+    .toc ol { grid-template-columns: 1fr; }
+    .formula-additions-list .item { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>חדוא 1מ &mdash; Exam Mastery Guide</h1>
+  <p class="subtitle">Technion · 104018 · Based on 2017–2022 Finals &amp; Midterms</p>
+</div>
+
+<div class="container">
+
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#structure">Exam structure &amp; scoring</a></li>
+      <li><a href="#question-types">Question types decoded</a></li>
+      <li><a href="#limits">Limits &amp; L'Hôpital</a></li>
+      <li><a href="#sequences">Sequences</a></li>
+      <li><a href="#series">Series &amp; convergence</a></li>
+      <li><a href="#power-series">Power series &amp; Taylor</a></li>
+      <li><a href="#derivatives">Derivatives &amp; analysis</a></li>
+      <li><a href="#integrals">Integrals &amp; techniques</a></li>
+      <li><a href="#proofs">Proof questions (Part B)</a></li>
+      <li><a href="#formula-sheet">Formula sheet additions</a></li>
+    </ol>
+  </div>
+
+  <!-- SECTION 1 -->
+  <section id="structure">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Exam structure &amp; scoring</h2>
+    </div>
+
+    <div class="exam-structure">
+      <div class="exam-part">
+        <div class="part-header">Part A — Multiple choice / T&amp;F</div>
+        <div class="part-body">
+          <span class="pts">~40 pts</span>
+          4–8 MCQ questions (5–8 pts each) plus True/False (12 pts). No partial credit. Fast and high-stakes.
+        </div>
+      </div>
+      <div class="exam-part">
+        <div class="part-header">Part B — Prove or disprove</div>
+        <div class="part-body">
+          <span class="pts">~32 pts</span>
+          4 statements, 8 pts each. Must prove or find a concrete counterexample. Partial credit possible.
+        </div>
+      </div>
+      <div class="exam-part">
+        <div class="part-header">Part C — Open questions</div>
+        <div class="part-body">
+          <span class="pts">~40 pts</span>
+          Q11: theorem proof + application (~22 pts). Q12: calculation + integral (~18 pts).
+        </div>
+      </div>
+    </div>
+
+    <div class="strategy-block amber">
+      <strong>Time allocation</strong>
+      <p>Spend ~25 min on Part A, ~30 min on Part B, ~35 min on Part C. Never get stuck on one MCQ for more than 3 minutes — mark your best guess and move on. Always attempt Q12 (the integral/approximation question) — it has clear sub-parts and is the most predictable.</p>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- SECTION 2 -->
+  <section id="question-types">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>MCQ question types decoded</h2>
+    </div>
+
+    <p>The MCQ section is heavily pattern-based. Every exam contains these recurring question archetypes:</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="freq-badge freq-always">Every exam</div>
+        <div class="title">Piecewise / exotic function</div>
+        <div class="desc">A function like <code>e^{-1/x³}</code> or <code>sin(1/x)·x</code> is given. Test: injectivity, integrability, differentiability, even/odd, asymptotes. Use limits from both sides and Taylor expansions around 0.</div>
+      </div>
+      <div class="card">
+        <div class="freq-badge freq-always">Every exam</div>
+        <div class="title">Two improper integrals</div>
+        <div class="desc">Four options: both converge, neither, I only, II only. Identify the problematic point(s), do comparison test near that point using known rates: polynomials vs. log vs. sin/cos-derived singularities.</div>
+      </div>
+      <div class="card">
+        <div class="freq-badge freq-always">Every exam</div>
+        <div class="title">Two series: converge or not?</div>
+        <div class="desc">Same 4-option structure. Apply asymptotic equivalence: replace complicated terms with their dominant asymptotic (e.g. <code>arctan(1/n) ~ 1/n</code>, <code>1-cos(1/n) ~ 1/(2n²)</code>) then use p-series or comparison.</div>
+      </div>
+      <div class="card">
+        <div class="freq-badge freq-always">Every exam</div>
+        <div class="title">"Mark the correct/incorrect statement"</div>
+        <div class="desc">Tests conceptual traps: convexity, local vs. global extrema, differentiability vs. continuity, inflection points. Know your standard counterexamples cold.</div>
+      </div>
+      <div class="card">
+        <div class="freq-badge freq-often">Most exams</div>
+        <div class="title">Number of roots of an equation</div>
+        <div class="desc">Use IVT to show existence, then differentiation to show monotonicity for uniqueness. Often: show f(0) and f(∞) have opposite signs, then show f′ has constant sign.</div>
+      </div>
+      <div class="card">
+        <div class="freq-badge freq-often">Most exams</div>
+        <div class="title">Power series interval of convergence</div>
+        <div class="desc">Find radius R via ratio/root test. Then check endpoints separately using alternating series test, p-series, or divergence test. Know: if <code>a_n → L ≠ 0</code>, radius = 1.</div>
+      </div>
+    </div>
+
+    <div class="strategy-block green">
+      <strong>Key counterexamples to memorize</strong>
+      <p>
+        • <code>f(x) = x sin(1/x)</code>, <code>f(0)=0</code>: continuous but not differentiable at 0 in a nice way<br>
+        • <code>a_n = sin(n)/n</code>: converges (squeeze) even though it's not monotone<br>
+        • <code>f(x) = x²</code>: inflection point ≠ local extremum (no inflection). But <code>f(x) = x³</code> has both<br>
+        • <code>f(x) = |x|</code>: continuous everywhere, not differentiable at 0, and |f| can be differentiable even when f isn't
+      </p>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- SECTION 3 -->
+  <section id="limits">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Limits &amp; L'Hôpital</h2>
+    </div>
+
+    <h3>Standard limit types &amp; strategies</h3>
+
+    <div class="topic-row">
+      <div class="dot"></div>
+      <div class="topic-content">
+        <div class="topic-name">0/0 or ∞/∞ forms</div>
+        <div class="topic-tip">L'Hôpital directly. But first try algebraic simplification or known equivalents — it's often faster. Watch: L'Hôpital fails if the limit of f'/g' doesn't exist (e.g. sin/x as x→∞ oscillates).</div>
+      </div>
+    </div>
+
+    <div class="topic-row">
+      <div class="dot blue"></div>
+      <div class="topic-content">
+        <div class="topic-name">1^∞ form — <code>(1+something small)^(large)</code></div>
+        <div class="topic-tip">Rewrite as <code>e^(large · ln(1+small))</code>, then use <code>ln(1+u) ≈ u</code> for small u. Example: <code>lim (1+x)^(1/x)</code> as <code>x→0</code> or <code>x→∞</code>. The answer <code>e^a</code> where <code>a = lim (large)·(small)</code>.</div>
+      </div>
+    </div>
+
+    <div class="topic-row">
+      <div class="dot green"></div>
+      <div class="topic-content">
+        <div class="topic-name">∞/∞ with trig inside (e.g. x/(x−sin x))</div>
+        <div class="topic-tip">Don't use L'Hôpital repeatedly — use Taylor. <code>sin x = x − x³/6 + …</code> so <code>x − sin x = x³/6</code>. Then the ratio becomes simple.</div>
+      </div>
+    </div>
+
+    <div class="topic-row">
+      <div class="dot purple"></div>
+      <div class="topic-content">
+        <div class="topic-name">Limit involving integral with variable bounds</div>
+        <div class="topic-tip">Use Fundamental Theorem of Calculus to differentiate top/bottom (this is L'Hôpital applied to an integral quotient). The exam has this often in MCQ Q7 style: <code>lim [∫₀^{x²} f(t)dt] / x·sin²x</code>.</div>
+      </div>
+    </div>
+
+    <div class="topic-row">
+      <div class="dot amber"></div>
+      <div class="topic-content">
+        <div class="topic-name">Limit of sequence (discrete): √n·power sums</div>
+        <div class="topic-tip">The classic: <code>lim (1^p + 2^p + … + n^p)^(1/n)</code>. Use Riemann sum interpretation or Cesàro–Stolz. Appears in midterms frequently.</div>
+      </div>
+    </div>
+
+    <div class="strategy-block">
+      <strong>Asymptotic equivalents — memorize these</strong>
+      <p>
+        As <code>u → 0</code>: <code>sin u ~ u</code>, <code>tan u ~ u</code>, <code>1-cos u ~ u²/2</code>, <code>ln(1+u) ~ u</code>, <code>e^u-1 ~ u</code>, <code>arctan u ~ u</code>, <code>arcsin u ~ u</code>, <code>(1+u)^α - 1 ~ αu</code>
+      </p>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- SECTION 4 -->
+  <section id="sequences">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>Sequences</h2>
+    </div>
+
+    <h3>Proving convergence / divergence</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="title">Recursively defined sequences</div>
+        <div class="desc">Very common in Part B and old-style Part C. Strategy: (1) Show monotone (by induction or <code>a_{n+1} - a_n</code>). (2) Show bounded. (3) Let L = limit of both sides of recurrence, solve for L. Common pitfall: multiple fixed points — check which one the sequence actually approaches.</div>
+      </div>
+      <div class="card">
+        <div class="title">Sequence defined by sum</div>
+        <div class="desc">If <code>a_n = Σ_{k=1}^n b_k</code> then convergence of the sequence ↔ convergence of the series <code>Σb_k</code>. Also: if <code>Σ a_k = 5</code> is given, then <code>a_n → 0</code> (necessary condition for series convergence).</div>
+      </div>
+    </div>
+
+    <div class="strategy-block blue">
+      <strong>The squeeze theorem checklist</strong>
+      <p>1. Find lower and upper bounds that squeeze to the same limit. 2. Bounds must be explicit and provable — not hand-waving. 3. For trig sequences: use <code>-1 ≤ sin/cos ≤ 1</code> to eliminate oscillation. Example: <code>lim n·sin(1/n) = 1</code> via <code>sin(1/n)/(1/n) → 1</code>.</p>
+    </div>
+
+    <h3>Subsequences &amp; accumulation points</h3>
+    <p>Know: if every subsequence of <code>{a_n}</code> that converges, converges to the same limit L, then <code>a_n → L</code>. Contrapositive: if you find two subsequences converging to different values, the sequence diverges.</p>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- SECTION 5 -->
+  <section id="series">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>Series &amp; convergence</h2>
+    </div>
+
+    <p>Series questions appear in <em>both</em> MCQ and Part B every single exam. Master the decision tree below.</p>
+
+    <h3>Convergence test decision tree</h3>
+
+    <ol class="step-list">
+      <li><strong>Divergence test first:</strong> If <code>a_n ↛ 0</code>, the series diverges immediately. Always check.</li>
+      <li><strong>Recognize standard forms:</strong> geometric (<code>|r| &lt; 1</code>), p-series (<code>Σ1/n^p</code> converges iff <code>p &gt; 1</code>), telescoping.</li>
+      <li><strong>Comparison / limit comparison:</strong> Find the dominant asymptotic of <code>a_n</code>. Replace complicated expressions: <code>arctan(1/n) ~ 1/n</code>, <code>1-cos(1/n) ~ 1/(2n²)</code>, <code>ln(n+1)-ln(n) ~ 1/n</code>, <code>(e^{1/n}-1) ~ 1/n</code>. Then compare to a p-series.</li>
+      <li><strong>Ratio test:</strong> Best for factorials and exponentials (<code>(2n)!/n!</code>, <code>n^n/n!</code>). If L=1, test is inconclusive.</li>
+      <li><strong>Root test:</strong> Best when the whole term is raised to the n-th power (<code>(f(n))^n</code>).</li>
+      <li><strong>Alternating series (Leibniz):</strong> <code>Σ(-1)^n b_n</code> converges if <code>b_n</code> is decreasing and <code>b_n → 0</code>. Note: convergence may be conditional (not absolute).</li>
+      <li><strong>Integral test:</strong> Use when <code>a_n = f(n)</code> for a nice continuous decreasing function. Rare on this exam.</li>
+    </ol>
+
+    <div class="strategy-block">
+      <strong>Exam trap: comparing absolute vs. conditional convergence</strong>
+      <p>The MCQ often asks: if <code>Σa_n</code> converges, what can you say about <code>Σa_n²</code>, <code>Σ|a_n|/√n</code>, etc.? Key fact: convergence of <code>Σa_n</code> alone tells you very little about other series — you need absolute convergence for most manipulations. The answer to "does convergence of Σa_n imply Σa_n² converges?" is <strong>no</strong> in general, but yes if convergent absolutely.</p>
+    </div>
+
+    <h3>Evaluating series sums (not just convergence)</h3>
+    <p>Several exams ask you to evaluate a sum, not just classify it. Techniques used:</p>
+    <ul>
+      <li><strong>Recognize as Taylor series:</strong> Match to <code>e^x</code>, <code>sin x</code>, <code>cos x</code>, <code>ln(1+x)</code>, <code>arctan x</code> at a specific x value.</li>
+      <li><strong>Differentiate or integrate a known power series</strong> term-by-term to get the form you need.</li>
+      <li><strong>Telescoping:</strong> Write <code>a_n = f(n) - f(n+1)</code> and the sum collapses to <code>f(1) - lim f(n)</code>.</li>
+    </ul>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- SECTION 6 -->
+  <section id="power-series">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>Power series &amp; Taylor</h2>
+    </div>
+
+    <h3>Finding the interval of convergence</h3>
+    <ol class="step-list">
+      <li>Use ratio test to find R: <code>R = lim |a_n / a_{n+1}|</code> or <code>R = 1/lim |a_n|^{1/n}</code>.</li>
+      <li>Check the two endpoints <code>x = ±R</code> separately. At endpoints, ratio test gives L=1 (inconclusive), so use other tests.</li>
+      <li>If the series is <code>Σa_n(x-c)^n</code>, shift appropriately: the center is c, radius is R, so interval is <code>(c-R, c+R)</code> with possible endpoint inclusion.</li>
+    </ol>
+
+    <div class="strategy-block blue">
+      <strong>Shifted power series trick</strong>
+      <p>If the interval of convergence of <code>Σa_n x^n</code> is <code>[-2, 2)</code>, then <code>Σa_n (x²+1)^n</code> converges when <code>|x²+1| &lt; 2</code> and possibly at endpoints. Solve: <code>-2 ≤ x²+1 &lt; 2</code> → <code>-1 &lt; x² &lt; 1</code> → <code>-1 &lt; x &lt; 1</code>. Watch out: this appears as a Part B "prove or disprove" question.</p>
+    </div>
+
+    <h3>Taylor approximation for numerical calculation</h3>
+    <p>Q12(a) or Q7(b) every single exam: compute <code>√something</code> or <code>ln(something)</code> or <code>∛something</code> with given accuracy. The strategy is always the same:</p>
+
+    <ol class="step-list">
+      <li>Identify which standard Taylor series to use: <code>(1+u)^α</code> for roots, <code>ln(1+u)</code> for logarithms.</li>
+      <li>Write the target as <code>f(x₀ + h)</code> where <code>x₀</code> is a nice point and <code>h</code> is small. Example: <code>√18 = √(16·(1+1/8)) = 4·(1+1/8)^{1/2}</code>.</li>
+      <li>Expand using binomial series: <code>(1+u)^α = 1 + αu + α(α-1)u²/2! + …</code></li>
+      <li>Find how many terms are needed: the series for roots and logs is alternating after the first term, so the error is bounded by the first omitted term. Keep terms until the first omitted term is smaller than the required accuracy.</li>
+      <li>State explicitly: "Since this is an alternating series with decreasing terms, the error is less than the first omitted term = [value] &lt; [required accuracy]."</li>
+    </ol>
+
+    <div class="formula-box">
+      <span class="comment">— Key Taylor series at x=0 —</span><br>
+      e^x = 1 + x + x²/2! + x³/3! + …        (all x)<br>
+      sin x = x − x³/6 + x⁵/120 − …           (all x)<br>
+      cos x = 1 − x²/2 + x⁴/24 − …            (all x)<br>
+      ln(1+x) = x − x²/2 + x³/3 − …           (|x| ≤ 1, x≠-1)<br>
+      (1+x)^α = 1 + αx + α(α-1)x²/2! + …     (|x| &lt; 1)<br>
+      arctan x = x − x³/3 + x⁵/5 − …          (|x| ≤ 1)<br>
+      <span class="comment">1/(1−x) = 1 + x + x² + x³ + …            (|x| &lt; 1)</span>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- SECTION 7 -->
+  <section id="derivatives">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>Derivatives &amp; function analysis</h2>
+    </div>
+
+    <h3>The big conceptual questions (MCQ Part A, Q4)</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="title">Differentiability vs. continuity</div>
+        <div class="desc">
+          Differentiable ⟹ continuous (always). Continuous ⇏ differentiable (<code>|x|</code> at 0).<br>
+          <code>f²</code> differentiable ⇏ <code>f</code> differentiable. But <code>f</code> differentiable ⟹ <code>f²</code> differentiable.<br>
+          <code>|f|</code> differentiable ⇏ <code>f</code> differentiable (classic trap).
+        </div>
+      </div>
+      <div class="card">
+        <div class="title">Monotonicity &amp; derivatives</div>
+        <div class="desc">
+          <code>f′ > 0</code> on (a,b) ⟹ strictly increasing. But <code>f′ ≥ 0</code> alone is NOT enough (e.g. <code>x³</code> at 0). If <code>f′ > 0</code> everywhere except finitely many points, still strictly increasing.
+        </div>
+      </div>
+      <div class="card">
+        <div class="title">Convexity &amp; inflection</div>
+        <div class="desc">
+          <code>f′′ > 0</code> ⟹ convex (not the converse). Inflection point: <code>f′′</code> changes sign (not just <code>f′′=0</code>). A convex function on all of ℝ with a maximum must be constant. An inflection point CAN be a local extremum only if differentiability fails there.
+        </div>
+      </div>
+      <div class="card">
+        <div class="title">Inverse function differentiability</div>
+        <div class="desc">
+          If <code>f(x₀) = y₀</code> and <code>f′(x₀) ≠ 0</code>, then <code>(f⁻¹)′(y₀) = 1/f′(x₀)</code>. Tangent line to <code>f⁻¹</code> at <code>y₀</code>: use this formula. Also: if T₂(x) = f(0) + f′(0)x + … is given, extract f(0) and f′(0) directly.
+        </div>
+      </div>
+    </div>
+
+    <h3>Function analysis: FTC + differentiation of integrals</h3>
+
+    <div class="strategy-block green">
+      <strong>Derivative of ∫_{g(x)}^{h(x)} f(t)dt</strong>
+      <p>= <code>f(h(x))·h′(x) − f(g(x))·g′(x)</code>. Used constantly in limits via L'Hôpital on integral quotients, and in proving a function is increasing/decreasing (by showing the derivative is positive/negative).</p>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- SECTION 8 -->
+  <section id="integrals">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>Integrals &amp; techniques</h2>
+    </div>
+
+    <h3>Choosing the technique — Q12(b) every exam</h3>
+
+    <div class="topic-row">
+      <div class="dot"></div>
+      <div class="topic-content">
+        <div class="topic-name">∫ (linear)/(quadratic) dx — partial fractions or completing the square</div>
+        <div class="topic-tip">Split numerator: write <code>Ax+B = A(x+b) + C</code> so one part is the derivative of the denominator (→ ln) and one is a pure constant (→ arctan). This exact form (<code>∫(px+q)/(x²+bx+c)dx</code>) appears in 2018A, 2019A, 2022A exams.</div>
+      </div>
+    </div>
+
+    <div class="topic-row">
+      <div class="dot blue"></div>
+      <div class="topic-content">
+        <div class="topic-name">Integration by parts: ∫u dv = uv − ∫v du</div>
+        <div class="topic-tip">Use for <code>x·trig</code>, <code>x·e^x</code>, <code>ln(x)</code>, <code>x·arctan(x)</code>. For the last one (appears on 2019B): let <code>u=arctan(x)</code>, <code>dv=x dx</code>. The 2018B exam has a tricky chain with F(x)=∫f(t)dt — differentiate to find h′(x) via chain rule.</div>
+      </div>
+    </div>
+
+    <div class="topic-row">
+      <div class="dot green"></div>
+      <div class="topic-content">
+        <div class="topic-name">Substitution with nested compositions</div>
+        <div class="topic-tip">When you see <code>∫e^{sin x} cos(sin x) cos x dx</code> (appears on 2020A!): let <code>u = sin x</code>, then <code>du = cos x dx</code>, so it becomes <code>∫e^u cos(u) du</code>, then parts again.</div>
+      </div>
+    </div>
+
+    <div class="topic-row">
+      <div class="dot purple"></div>
+      <div class="topic-content">
+        <div class="topic-name">Trigonometric substitution for √(a²−x²)</div>
+        <div class="topic-tip">Let <code>x = a sin θ</code>. Used for arc length integrals and in <code>∫x²/√(4−x²)dx</code> style problems. After substitution, use double-angle formulas to simplify.</div>
+      </div>
+    </div>
+
+    <div class="topic-row">
+      <div class="dot amber"></div>
+      <div class="topic-content">
+        <div class="topic-name">Improper integrals — convergence analysis</div>
+        <div class="topic-tip">At a singularity <code>x=a</code>: near <code>a</code>, compare <code>f(x) ~ C/(x-a)^p</code>. Converges iff <code>p &lt; 1</code>. At <code>∞</code>: compare to <code>1/x^p</code>. Converges iff <code>p &gt; 1</code>. For <code>sin(x-a)/(x-a)²</code> type: near <code>a</code>, <code>sin(x-a)/(x-a)² ~ 1/(x-a)</code> → diverges (like <code>p=1</code>).</div>
+      </div>
+    </div>
+
+    <h3>Definite integral computation tricks</h3>
+    <ul>
+      <li><strong>Symmetry:</strong> If <code>f</code> is odd and integration is over <code>[-a, a]</code>, the integral is 0. Always check before computing.</li>
+      <li><strong>Substitution in definite integral:</strong> Update the limits! This is a common careless error.</li>
+      <li><strong>FTC with parameter:</strong> If <code>F(x) = ∫_a^{g(x)} f(t)dt</code>, then <code>F′(x) = f(g(x))·g′(x)</code>. Use this to prove monotonicity of F.</li>
+    </ul>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- SECTION 9 -->
+  <section id="proofs">
+    <div class="section-header">
+      <span class="section-number">09</span>
+      <h2>Proof questions (Parts B &amp; C)</h2>
+    </div>
+
+    <p>Part B is 4 "prove or disprove" statements. Part C Q11 is a theorem proof + application. These have the highest variance in student scores.</p>
+
+    <h3>Part C — Theorem proofs (you MUST know these)</h3>
+
+    <p>The proof question rotates between these theorems — one appears every exam:</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="freq-badge freq-always">Appears every year</div>
+        <div class="title">Rolle's Theorem</div>
+        <div class="desc">f continuous on [a,b], differentiable on (a,b), f(a)=f(b) ⟹ ∃c∈(a,b): f′(c)=0. Proof: if f is constant, done. Otherwise by EVT f attains max or min in interior → Fermat gives f′=0 there.</div>
+      </div>
+      <div class="card">
+        <div class="freq-badge freq-always">Appears every year</div>
+        <div class="title">Lagrange / MVT</div>
+        <div class="desc">Apply Rolle to the auxiliary function <code>g(x) = f(x) − f(a) − [(f(b)-f(a))/(b-a)]·(x-a)</code>. Verify g(a)=g(b)=0, apply Rolle to g, get a c where g′(c)=0, which gives the MVT conclusion.</div>
+      </div>
+      <div class="card">
+        <div class="freq-badge freq-often">Some years</div>
+        <div class="title">Fermat's Theorem</div>
+        <div class="desc">If x₀ is a local extremum and f is differentiable at x₀, then f′(x₀)=0. Proof: consider the limit definition of f′ from left and right, use the sign of f(x)-f(x₀) to conclude the limit must be both ≥0 and ≤0.</div>
+      </div>
+    </div>
+
+    <div class="strategy-block amber">
+      <strong>After proving the theorem — the application (10–12 pts)</strong>
+      <p>This is where you apply the theorem you just proved. Common patterns: (1) Use MVT to bound f(b)-f(a) given f′ ≤ g(x). (2) Show an equation has exactly N solutions via IVT (existence) + strict monotonicity (uniqueness). (3) Prove some limit identity using f(x+h)-f(x) → 0 via MVT applied to a specific interval.</p>
+    </div>
+
+    <h3>Part B — Prove or disprove: systematic approach</h3>
+
+    <ol class="step-list">
+      <li><strong>Try to disprove first.</strong> Think of the simplest possible counterexample. Most false statements can be disproved with <code>a_n = (-1)^n</code>, <code>f(x) = |x|</code>, constant functions, etc.</li>
+      <li><strong>If you can't find a counterexample in 2 minutes, it's probably true.</strong> Start building a proof using the hypothesis.</li>
+      <li><strong>For implications about limits:</strong> use ε-N definitions only if the statement is subtle. Most can be proven using limit arithmetic rules.</li>
+      <li><strong>Write the counterexample explicitly.</strong> State: "Let [construct]. Then [verify hypothesis]. But [show conclusion fails]. ∎"</li>
+    </ol>
+
+    <div class="strategy-block purple">
+      <strong>High-frequency Part B archetypes</strong>
+      <p>
+        • "f(x)/x → 1 ⟹ f(x)−x → 0": <strong>FALSE</strong> — counterexample: f(x)=x+c for any c≠0.<br>
+        • "if a_{n+1}−a_n → 0 then {a_n} converges": <strong>FALSE</strong> — counterexample: a_n = ln(n).<br>
+        • "if 0 ≤ a_n−a_{n-1} ≤ 1/n² then {a_n} converges": <strong>TRUE</strong> — a_n is increasing and bounded above (telescoping, Σ1/n² converges).<br>
+        • "if Σan·bn and Σan²·bn² converge then bn converges": FALSE in general.
+      </p>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- SECTION 10 -->
+  <section id="formula-sheet">
+    <div class="section-header">
+      <span class="section-number">10</span>
+      <h2>Formula sheet — what to add</h2>
+    </div>
+
+    <p>Your sheet already has: trig identities, log/ln rules, double angle, limit hierarchy, L'Hôpital, derivatives, integrals, integration techniques, Taylor expansion, convergence tests, power series radius. Here is what's missing or under-specified based on the exams:</p>
+
+    <div class="card" style="border-color: #86efac; background: #f0fdf4;">
+      <div class="formula-additions-list">
+
+        <div class="item">
+          <div class="label">Asymptotic equivalents (u→0)</div>
+          <div>
+            Add a small table: <code>sin u ~ u</code>, <code>1−cos u ~ u²/2</code>, <code>tan u ~ u</code>, <code>e^u−1 ~ u</code>, <code>ln(1+u) ~ u</code>, <code>arctan u ~ u</code>, <code>arcsin u ~ u</code>, <code>(1+u)^α−1 ~ αu</code>. Crucial for series comparison and limits — used on virtually every exam.
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label">Binomial series</div>
+          <div>
+            <code>(1+x)^α = Σ_{n=0}^∞ C(α,n) x^n</code> where <code>C(α,n) = α(α-1)···(α-n+1)/n!</code> for <code>|x| &lt; 1</code>. Write out the first 3 terms explicitly: <code>1 + αx + α(α-1)x²/2! + α(α-1)(α-2)x³/3! + …</code>. This is used for <em>every</em> numerical approximation question.
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label">Inverse function derivative</div>
+          <div>
+            <code>(f⁻¹)′(y₀) = 1 / f′(f⁻¹(y₀))</code>. Appears in MCQ (tangent line to inverse function). If T₂(x) = a + bx + cx² is Maclaurin of f, then f(0)=a, f′(0)=b.
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label">MVT / Lagrange statement</div>
+          <div>
+            Write it precisely: "If f is continuous on [a,b] and differentiable on (a,b), then ∃c∈(a,b) such that f(b)−f(a) = f′(c)·(b−a)." You will need to state this verbatim in Part C.
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label">Rolle's theorem statement</div>
+          <div>
+            "If f is continuous on [a,b], differentiable on (a,b), and f(a)=f(b), then ∃c∈(a,b) such that f′(c)=0." Also write the MVT auxiliary function: <code>g(x) = f(x) − f(a) − [(f(b)−f(a))/(b−a)]·(x−a)</code>.
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label">Improper integral convergence rates</div>
+          <div>
+            Near singularity at <code>x=a</code>: <code>∫1/(x−a)^p dx</code> converges iff <code>p &lt; 1</code>. At <code>∞</code>: <code>∫_{1}^∞ 1/x^p dx</code> converges iff <code>p &gt; 1</code>. Add <code>∫_1^∞ 1/(x·(ln x)^p)dx</code> converges iff <code>p &gt; 1</code> (log-p test — appears in series questions too).
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label">Arc length formula</div>
+          <div>
+            <code>L = ∫_a^b √(1 + [f′(x)]²) dx</code>. Appears in 2017A explicitly. Add this — it's not a standard integration formula but shows up as a trick question where after substitution the integral simplifies nicely.
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label">Partial fractions reminder</div>
+          <div>
+            For <code>(px+q)/(x²+bx+c)</code> with irreducible quadratic: split as <code>A·(2x+b)/(x²+bx+c) + B/(x²+bx+c)</code>. First part → <code>A·ln|x²+bx+c|</code>. Second part: complete the square → <code>arctan</code>. Add the completing-the-square step explicitly to your sheet.
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label">Leibniz rule for power radius</div>
+          <div>
+            If radius of <code>Σa_n x^n</code> is R, then radius of <code>Σa_n x^{2n}</code> is <code>√R</code>, and of <code>Σa_n (x−c)^n</code> is still R (just shifted). If <code>a_n → L ≠ 0</code>, then <code>R = 1</code>.
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label">Cesàro / Riemann sum limit</div>
+          <div>
+            <code>lim_{n→∞} (1/n) Σ_{k=1}^n f(k/n) = ∫_0^1 f(x)dx</code>. Used for limits like <code>lim (1^p + … + n^p)^{1/n}</code> — recognize as Riemann sum and evaluate as integral.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="warning">
+      Do NOT add: Lagrange error bound (excluded per instructions), ε-δ definition proofs (excluded), Taylor remainder formulas beyond "error ≤ first omitted term for alternating series."
+    </div>
+
+  </section>
+
+</div>
+</body>
+</html>
